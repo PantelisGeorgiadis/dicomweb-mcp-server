@@ -1,6 +1,6 @@
 {
   "name": "dicomweb-mcp-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DICOMweb Model Context Protocol (MCP) server implementation",
   "type": "module",
   "scripts": {
@@ -28,6 +28,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "dotenv": "^17.4.2",
+    "pdf-parse": "^2.4.5",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -42,7 +43,7 @@
     "eslint-plugin-prettier": "^5.2.6",
     "mocha": "^11.7.5",
     "prettier": "^3.5.3",
-    "terser-webpack-plugin": "^5.5.0",
+    "terser-webpack-plugin": "^5.6.0",
     "webpack": "^5.106.2",
     "webpack-cli": "^7.0.2"
   },
@@ -53,6 +54,7 @@
     "dicomweb-mcp-server": "./build/dicomweb-mcp-server.js"
   },
   "files": [
-    "build/dicomweb-mcp-server.js"
+    "build/dicomweb-mcp-server.js",
+    "build/.env"
   ]
 }

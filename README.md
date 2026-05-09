@@ -2,7 +2,7 @@
 
 # dicomweb-mcp-server
 
-A [Model Context Protocol (MCP)][mcp-url] server that exposes a DICOMweb-compliant DICOM archive to AI assistants. It lets any MCP-capable client search studies, series and instances, inspect metadata, read Structured Reports, and render image frames — all through natural language.
+A [Model Context Protocol (MCP)][mcp-url] server that exposes a DICOMweb-compliant DICOM archive to AI assistants. It lets any MCP-capable client search studies, series and instances, inspect metadata, read Structured and Encapsulated PDF Reports, and render image frames — all through natural language.
 
 ## Requirements
 
@@ -15,8 +15,8 @@ The following endpoints must be supported by the DICOMweb server:
 |---|---|---|
 | `GET /studies` | QIDO-RS | Search studies |
 | `GET /studies/{study}/series` | QIDO-RS | Search series |
-| `GET /studies/{study}/series/{series}/instances` | QIDO-RS | Search instances, search structured reports |
-| `GET /studies/{study}/series/{series}/instances/{instance}/metadata` | WADO-RS | Get instance metadata, get structured report text |
+| `GET /studies/{study}/series/{series}/instances` | QIDO-RS | Search instances, search structured reports, search encapsulated PDF reports |
+| `GET /studies/{study}/series/{series}/instances/{instance}/metadata` | WADO-RS | Get instance metadata, get structured report text, get encapsulated PDF report text |
 | `GET /studies/{study}/series/{series}/instances/{instance}/frames/{frame}/rendered` | WADO-RS | Render instance frame |
 
 ## Installation
@@ -161,6 +161,38 @@ Searches DICOM instances within a single series. Results are sorted by Instance 
 
 ---
 
+### `find-encapsulated-pdf-reports`
+
+Finds all Encapsulated PDF instances in a study by looking for DOC-modality series and filtering by the Encapsulated PDF SOP Class UID (`1.2.840.10008.5.1.4.1.1.104.1`).
+
+| Parameter | Type | Description |
+|---|---|---|
+| `studyInstanceUid` | string | Study Instance UID — obtain from `find-studies` |
+
+**Example prompts**
+- *"Find all PDF reports in study 1.2.3.4"*
+- *"Are there any encapsulated PDF documents in this study?"*
+
+---
+
+### `get-encapsulated-pdf-report-text`
+
+Retrieves an Encapsulated PDF DICOM instance and extracts its text content.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `studyInstanceUid` | string | Study Instance UID |
+| `seriesInstanceUid` | string | Series Instance UID |
+| `sopInstanceUid` | string | SOP Instance UID — obtain from `find-encapsulated-pdf-reports` |
+
+> **Note:** Text extraction only works for **searchable (text-based) PDFs**. PDFs that consist entirely of scanned page images without an embedded text layer will yield little or no text. In those cases, no OCR is performed.
+
+**Example prompts**
+- *"Read the PDF report for SOP instance 1.2.3.4.5"*
+- *"What does the encapsulated PDF document say?"*
+
+---
+
 ### `find-structured-reports`
 
 Finds all Structured Report (SR) instances in a study by looking for SR-modality series and filtering by known SR SOP Class UIDs.
@@ -251,7 +283,8 @@ A natural conversational sequence with the MCP server looks like this:
 2. **Browse series** — `find-series` with the Study Instance UID returned in step 1.
 3. **List instances** — `find-instances` with Study and Series UIDs from steps 1–2.
 4. **Inspect or render** — `get-instance-metadata` for DICOM attributes, or `render-instance-frame` to view pixel data.
-5. **Read reports** — `find-structured-reports` then `get-structured-report-text` for SR documents.
+5. **Read SR reports** — `find-structured-reports` then `get-structured-report-text` for SR documents.
+6. **Read PDF reports** — `find-encapsulated-pdf-reports` then `get-encapsulated-pdf-report-text` for Encapsulated PDF documents.
 
 ## License
 
@@ -263,7 +296,7 @@ dicomweb-mcp-server is released under the MIT License.
 [npm-downloads-image]: http://img.shields.io/npm/dm/dicomweb-mcp-server.svg?style=flat
 
 [build-url]: https://github.com/PantelisGeorgiadis/dicomweb-mcp-server/actions/workflows/build.yml
-[build-image]: https://github.com/PantelisGeorgiadis/dicomweb-mcp-server/actions/workflows/build.yml/badge.svg?branch=master
+[build-image]: https://github.com/PantelisGeorgiadis/dicomweb-mcp-server/actions/workflows/build-test.yml/badge.svg?branch=main
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: LICENSE.txt

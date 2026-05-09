@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { scrubUrl, urlJoin } from './../src/utils/url.js';
+import { isSameOrigin, scrubUrl, urlJoin } from './../src/utils/url.js';
 
 describe('urlJoin', () => {
   it('should join two simple segments', () => {
@@ -119,5 +119,47 @@ describe('scrubUrl', () => {
 
   it('should return <invalid url> for an empty string', () => {
     expect(scrubUrl('')).to.equal('<invalid url>');
+  });
+});
+
+describe('isSameOrigin', () => {
+  it('should return true for two URLs with the same http origin', () => {
+    expect(isSameOrigin('http://host:8042/dicom-web', 'http://host:8042/other')).to.be.true;
+  });
+
+  it('should return true when paths differ but origin is the same', () => {
+    expect(isSameOrigin('http://host/studies/1.2.3/bulk/pdf', 'http://host')).to.be.true;
+  });
+
+  it('should return false when hosts differ', () => {
+    expect(isSameOrigin('http://host-a/bulk', 'http://host-b/dicom-web')).to.be.false;
+  });
+
+  it('should return false when ports differ', () => {
+    expect(isSameOrigin('http://host:8042/bulk', 'http://host:9000/dicom-web')).to.be.false;
+  });
+
+  it('should return false when schemes differ', () => {
+    expect(isSameOrigin('http://host/bulk', 'https://host/dicom-web')).to.be.false;
+  });
+
+  it('should return false when the first URL is unparseable', () => {
+    expect(isSameOrigin('not a url', 'http://host/dicom-web')).to.be.false;
+  });
+
+  it('should return false when the second URL is unparseable', () => {
+    expect(isSameOrigin('http://host/bulk', 'not a url')).to.be.false;
+  });
+
+  it('should return false when the first argument is an empty string', () => {
+    expect(isSameOrigin('', 'http://host/dicom-web')).to.be.false;
+  });
+
+  it('should return false when the second argument is an empty string', () => {
+    expect(isSameOrigin('http://host/bulk', '')).to.be.false;
+  });
+
+  it('should return false when both arguments are empty strings', () => {
+    expect(isSameOrigin('', '')).to.be.false;
   });
 });

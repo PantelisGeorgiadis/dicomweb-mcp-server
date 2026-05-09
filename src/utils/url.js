@@ -139,3 +139,23 @@ export function scrubUrl(url) {
     return '<invalid url>';
   }
 }
+
+/**
+ * Returns `true` when both URLs parse successfully and share the same origin
+ * (scheme + host + port). Returns `false` if either URL is falsy or unparseable.
+ * @method
+ * @param {string} urlA - First URL to compare.
+ * @param {string} urlB - Second URL to compare.
+ * @returns {boolean} Whether the two URLs have the same origin.
+ */
+export function isSameOrigin(urlA, urlB) {
+  if (!urlA || !urlB) {
+    return false;
+  }
+
+  try {
+    return new URL(urlA).origin === new URL(urlB).origin;
+  } catch {
+    return false;
+  }
+}

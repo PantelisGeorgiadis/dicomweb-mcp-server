@@ -4,9 +4,11 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { z } from 'zod';
 
+import { getEncapsulatedPdfReportText } from './tools/getEncapsulatedPdfReportText.js';
 import { getInstanceMetadata } from './tools/getInstanceMetadata.js';
 import { getStructuredReportText } from './tools/getStructuredReportText.js';
 import { renderInstanceFrame } from './tools/renderInstanceFrame.js';
+import { searchEncapsulatedPdfReports } from './tools/searchEncapsulatedPdfReports.js';
 import { searchInstances } from './tools/searchInstances.js';
 import { searchSeries } from './tools/searchSeries.js';
 import { searchStructuredReports } from './tools/searchStructuredReports.js';
@@ -54,7 +56,7 @@ const server = new McpServer(
     title: 'DICOMweb Medical Image and Report Explorer',
     description:
       'Search and retrieve medical imaging data from a DICOMweb-compliant server. Supports querying studies, series, and instances; reading DICOM metadata; extracting Structured Report text; and rendering instance frames as images.',
-    version: '0.0.1',
+    version: '0.0.2',
   },
   {
     capabilities: {
@@ -245,6 +247,45 @@ server.tool(
 );
 
 server.tool(
+  'find-encapsulated-pdf-reports',
+  'Finds all Encapsulated PDF DICOM instances in a study by searching for DOC-modality series and filtering by EP SOP Class UIDs. Requires a Study Instance UID from find-studies.',
+  {
+    studyInstanceUid: studyUidSchema,
+  },
+  async ({ studyInstanceUid }) => {
+    let textResult = 'No encapsulated PDF reports found in this study.';
+    try {
+      // Log the search criteria
+      server.sendLoggingMessage({
+        level: 'info',
+        data: `Searching encapsulated PDF reports for studyInstanceUid: ${studyInstanceUid}`,
+      });
+
+      // Perform the search using the provided parameters
+      const reports = await searchEncapsulatedPdfReports(studyInstanceUid, process.env);
+
+      // Log the search results
+      server.sendLoggingMessage({
+        level: 'info',
+        data: `Found ${reports.length} encapsulated PDF reports.`,
+      });
+
+      // Format the search results into a human-readable text format
+      if (reports.length > 0) {
+        textResult = formatResults(reports, 'Report');
+      }
+    } catch (error) {
+      const err = `Error searching encapsulated PDF reports: ${error.message}`;
+      server.sendLoggingMessage({ level: 'error', data: err });
+
+      return errorContent(err);
+    }
+
+    return textContent(textResult);
+  }
+);
+
+server.tool(
   'get-structured-report-text',
   'Retrieves and converts a Structured Report (SR) instance to human-readable text. Requires Study, Series, and SOP Instance UIDs from find-structured-reports. Does not retrieve image data.',
   {
@@ -282,6 +323,53 @@ server.tool(
       });
     } catch (error) {
       const err = `Error retrieving structured report text: ${error.message}`;
+      server.sendLoggingMessage({ level: 'error', data: err });
+
+      return errorContent(err);
+    }
+
+    return textContent(textResult);
+  }
+);
+
+server.tool(
+  'get-encapsulated-pdf-report-text',
+  'Retrieves and converts an Encapsulated PDF instance to human-readable text. Requires Study, Series, and SOP Instance UIDs from find-encapsulated-pdf-reports. Does not retrieve image data.',
+  {
+    studyInstanceUid: studyUidSchema.describe(
+      'DICOM Study Instance UID (e.g., 1.2.840.113619.2.55.3). Obtain from find-studies or find-encapsulated-pdf-reports.'
+    ),
+    seriesInstanceUid: seriesUidSchema.describe(
+      'DICOM Series Instance UID (e.g., 1.2.840.113619.2.55.3.604688123). Obtain from find-series or find-encapsulated-pdf-reports.'
+    ),
+    sopInstanceUid: sopUidSchema.describe(
+      'DICOM SOP Instance UID (e.g., 1.2.840.113619.2.55.3.604688123.123.1591781234.469). Obtain from find-instances or find-encapsulated-pdf-reports.'
+    ),
+  },
+  async ({ studyInstanceUid, seriesInstanceUid, sopInstanceUid }) => {
+    let textResult;
+    try {
+      // Log the retrieval criteria
+      server.sendLoggingMessage({
+        level: 'info',
+        data: `Retrieving encapsulated PDF report text for studyInstanceUid: ${studyInstanceUid}, seriesInstanceUid: ${seriesInstanceUid}, sopInstanceUid: ${sopInstanceUid}`,
+      });
+
+      // Perform the retrieval using the provided parameters
+      textResult = await getEncapsulatedPdfReportText(
+        studyInstanceUid,
+        seriesInstanceUid,
+        sopInstanceUid,
+        process.env
+      );
+
+      // Log the successful retrieval
+      server.sendLoggingMessage({
+        level: 'info',
+        data: `Successfully retrieved encapsulated PDF report text for SOP Instance UID: ${sopInstanceUid}`,
+      });
+    } catch (error) {
+      const err = `Error retrieving encapsulated PDF report text: ${error.message}`;
       server.sendLoggingMessage({ level: 'error', data: err });
 
       return errorContent(err);
