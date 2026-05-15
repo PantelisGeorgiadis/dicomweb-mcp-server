@@ -1,6 +1,6 @@
 {
   "name": "dicomweb-mcp-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "DICOMweb Model Context Protocol (MCP) server implementation",
   "type": "module",
   "scripts": {
@@ -47,6 +47,11 @@
     "webpack": "^5.106.2",
     "webpack-cli": "^7.0.2"
   },
+  "overrides": {
+    "c8": {
+      "yargs": "^18.0.0"
+    }
+  },  
   "engines": {
     "node": ">=20"
   },

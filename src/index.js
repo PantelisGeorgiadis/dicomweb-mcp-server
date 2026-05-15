@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { z } from 'zod';
 
+import './polyfill.js';
 import { getEncapsulatedPdfReportText } from './tools/getEncapsulatedPdfReportText.js';
 import { getInstanceMetadata } from './tools/getInstanceMetadata.js';
 import { getStructuredReportText } from './tools/getStructuredReportText.js';
@@ -56,7 +57,7 @@ const server = new McpServer(
     title: 'DICOMweb Medical Image and Report Explorer',
     description:
       'Search and retrieve medical imaging data from a DICOMweb-compliant server. Supports querying studies, series, and instances; reading DICOM metadata; extracting Structured Report text; and rendering instance frames as images.',
-    version: '0.0.2',
+    version: '0.0.3',
   },
   {
     capabilities: {
