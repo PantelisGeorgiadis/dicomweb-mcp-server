@@ -1,0 +1,76 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.PantelisGeorgiadis/dicomweb-mcp-server",
+  "title": "DICOMweb MCP Server",
+  "description": "MCP server exposing a DICOMweb DICOM archive to AI assistants via QIDO-RS and WADO-RS.",
+  "repository": {
+    "url": "https://github.com/PantelisGeorgiadis/dicomweb-mcp-server",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/PantelisGeorgiadis/dicomweb-mcp-server",
+  "version": "0.0.4",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "dicomweb-mcp-server",
+      "version": "0.0.4",
+      "runtimeHint": "npx",
+      "runtimeArguments": [
+        {
+          "type": "positional",
+          "value": "-y"
+        }
+      ],
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "DICOMWEB_HOST",
+          "description": "Base URL of the DICOMweb server (used for both QIDO-RS and WADO-RS requests).",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": false,
+          "placeholder": "https://your-dicomweb-server/dicomweb"
+        },
+        {
+          "name": "DICOMWEB_AUTH",
+          "description": "Authentication type: 'basic' or 'bearer'. Omit for unauthenticated access.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "choices": ["basic", "bearer"]
+        },
+        {
+          "name": "DICOMWEB_USER",
+          "description": "Username for Basic authentication. Required when DICOMWEB_AUTH=basic.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "DICOMWEB_PASS",
+          "description": "Password for Basic authentication. Required when DICOMWEB_AUTH=basic.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "DICOMWEB_TOKEN",
+          "description": "Bearer token for authentication. Required when DICOMWEB_AUTH=bearer.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "DICOMWEB_TIMEOUT",
+          "description": "Fetch request timeout in milliseconds. Omit to disable timeout.",
+          "isRequired": false,
+          "format": "number",
+          "isSecret": false,
+          "placeholder": "30000"
+        }
+      ]
+    }
+  ]
+}

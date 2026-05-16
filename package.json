@@ -1,7 +1,8 @@
 {
   "name": "dicomweb-mcp-server",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "DICOMweb Model Context Protocol (MCP) server implementation",
+  "mcpName": "io.github.PantelisGeorgiadis/dicomweb-mcp-server",
   "type": "module",
   "scripts": {
     "build": "npm run lint && npm run webpack",
@@ -41,6 +42,7 @@
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
+    "globals": "^17.6.0",
     "mocha": "^11.7.5",
     "prettier": "^3.5.3",
     "terser-webpack-plugin": "^5.6.0",
@@ -51,7 +53,7 @@
     "c8": {
       "yargs": "^18.0.0"
     }
-  },  
+  },
   "engines": {
     "node": ">=20"
   },

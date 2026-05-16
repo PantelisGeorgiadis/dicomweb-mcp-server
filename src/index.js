@@ -57,7 +57,7 @@ const server = new McpServer(
     title: 'DICOMweb Medical Image and Report Explorer',
     description:
       'Search and retrieve medical imaging data from a DICOMweb-compliant server. Supports querying studies, series, and instances; reading DICOM metadata; extracting Structured Report text; and rendering instance frames as images.',
-    version: '0.0.3',
+    version: '0.0.4',
   },
   {
     capabilities: {

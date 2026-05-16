@@ -1,4 +1,4 @@
-[![NPM version][npm-version-image]][npm-url] [![NPM downloads][npm-downloads-image]][npm-url] [![build][build-image]][build-url] [![MIT License][license-image]][license-url] 
+[![NPM version][npm-version-image]][npm-url] [![NPM downloads][npm-downloads-image]][npm-url] [![build][build-image]][build-url] [![MIT License][license-image]][license-url] [![dicomweb-mcp-server MCP server][glama-score-image]][glama-score-url]
 
 # dicomweb-mcp-server
 
@@ -290,6 +290,7 @@ A natural conversational sequence with the MCP server looks like this:
 
 dicomweb-mcp-server is released under the MIT License.
 
+[![dicomweb-mcp-server MCP server][glama-badge-image]][glama-badge-url]
 
 [npm-url]: https://npmjs.org/package/dicomweb-mcp-server
 [npm-version-image]: https://img.shields.io/npm/v/dicomweb-mcp-server.svg?style=flat
@@ -300,6 +301,12 @@ dicomweb-mcp-server is released under the MIT License.
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: LICENSE.txt
+
+[glama-score-image]: https://glama.ai/mcp/servers/PantelisGeorgiadis/dicomweb-mcp-server/badges/score.svg
+[glama-score-url]: https://glama.ai/mcp/servers/PantelisGeorgiadis/dicomweb-mcp-server
+
+[glama-badge-image]: https://glama.ai/mcp/servers/PantelisGeorgiadis/dicomweb-mcp-server/badges/card.svg
+[glama-badge-url]: https://glama.ai/mcp/servers/PantelisGeorgiadis/dicomweb-mcp-server
 
 [mcp-url]: https://modelcontextprotocol.io
 [orthanc-url]: https://www.orthanc-server.com/

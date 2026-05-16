@@ -36,7 +36,7 @@ if (typeof globalThis.DOMMatrix === 'undefined') {
     translateSelf(tx = 0, ty = 0) {
       this.e += this.a * tx + this.c * ty;
       this.f += this.b * tx + this.d * ty;
-      
+
       return this;
     }
 
