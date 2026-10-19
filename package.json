@@ -1,6 +1,6 @@
 {
   "name": "dicomweb-mcp-server",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "DICOMweb Model Context Protocol (MCP) server implementation",
   "mcpName": "io.github.PantelisGeorgiadis/dicomweb-mcp-server",
   "type": "module",
@@ -61,7 +61,6 @@
     "dicomweb-mcp-server": "./build/dicomweb-mcp-server.js"
   },
   "files": [
-    "build/dicomweb-mcp-server.js",
-    "build/.env"
+    "build/dicomweb-mcp-server.js"
   ]
 }

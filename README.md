@@ -1,4 +1,4 @@
-[![NPM version][npm-version-image]][npm-url] [![NPM downloads][npm-downloads-image]][npm-url] [![build][build-image]][build-url] [![MIT License][license-image]][license-url] [![dicomweb-mcp-server MCP server][glama-score-image]][glama-score-url]
+[![NPM version][npm-version-image]][npm-url] [![NPM downloads][npm-downloads-image]][npm-url] [![build][build-image]][build-url] [![MIT License][license-image]][license-url] [![dicomweb-mcp-server MCP server][glama-score-image]][glama-score-url] [![dicomweb-mcp-server on MCP ServerList][mcp-serverlist-image]][mcp-serverlist-url]
 
 # dicomweb-mcp-server
 
@@ -307,6 +307,9 @@ dicomweb-mcp-server is released under the MIT License.
 
 [glama-badge-image]: https://glama.ai/mcp/servers/PantelisGeorgiadis/dicomweb-mcp-server/badges/card.svg
 [glama-badge-url]: https://glama.ai/mcp/servers/PantelisGeorgiadis/dicomweb-mcp-server
+
+[mcp-serverlist-image]: https://mcp-serverlist.com/api/badge/dicomweb-mcp-server
+[mcp-serverlist-url]: https://mcp-serverlist.com/mcp/dicomweb-mcp-server
 
 [mcp-url]: https://modelcontextprotocol.io
 [orthanc-url]: https://www.orthanc-server.com/
